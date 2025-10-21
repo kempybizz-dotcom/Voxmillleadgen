@@ -443,4 +443,13 @@ async def main():
     write_to_sheet(all_voxmill, 'VOXMILL - High Ticket')
     write_to_sheet(all_agency, 'AGENCY - Struggling SMBs')
     
-    print("\n✨ ALL DONE! Check your Google Sheet."
+   print("\n✨ ALL DONE! Check your Google Sheet.")
+
+
+---
+
+## **🔧 FIX 2: Google Sheets Credentials**
+
+The error says:
+```
+ValueError: ('Unexpected credentials type', None, 'Expected', 'service_account')
