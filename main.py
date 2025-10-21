@@ -71,7 +71,7 @@ def connect_to_sheet():
 # LEAD MINING ENGINE
 # ============================================
 async def mine_leads(queries, cities, country, target_type):
-    """Mine leads from Google Places"""
+    "Mine leads from Google Places"
     all_leads = []
     seen_place_ids = set()
     
@@ -108,7 +108,7 @@ async def mine_leads(queries, cities, country, target_type):
 
 
 async def search_google_places(session, query):
-    """Search Google Places API"""
+    "Search Google Places API"
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     params = {'query': query, 'key': GOOGLE_PLACES_API}
     
@@ -124,7 +124,7 @@ async def search_google_places(session, query):
 
 
 async def get_place_details(session, place_id):
-    """Get place details"""
+    "Get place details"
     url = "https://maps.googleapis.com/maps/api/place/details/json"
     fields = "name,formatted_address,formatted_phone_number,website,rating,user_ratings_total,price_level,url"
     params = {'place_id': place_id, 'fields': fields, 'key': GOOGLE_PLACES_API}
@@ -140,7 +140,7 @@ async def get_place_details(session, place_id):
 
 
 async def process_lead(session, details, category, city, country, target_type):
-    """Process lead and add intelligence"""
+    "Process lead and add intelligence"
     name = details.get('name', 'Unknown')
     address = details.get('formatted_address', '')
     phone = details.get('formatted_phone_number', 'Not listed')
@@ -187,7 +187,7 @@ async def process_lead(session, details, category, city, country, target_type):
 
 
 async def detect_email(session, website):
-    """Detect email from website"""
+    "Detect email from website"
     if not website or website == 'No website':
         return 'None'
     
@@ -204,7 +204,7 @@ async def detect_email(session, website):
 
 
 async def find_socials(session, website, business_name):
-    """Find social media handles"""
+    "Find social media handles"
     socials = {'instagram': '', 'facebook': '', 'linkedin': ''}
     
     if not website or website == 'No website':
@@ -269,7 +269,7 @@ def calculate_social_score(socials, website):
 
 
 def calculate_priority(reviews, rating, website, tech_stack, social_score, target_type):
-    """Calculate priority score 1-10"""
+    "Calculate priority score 1-10"
     score = 5
     
     if target_type == 'voxmill':
@@ -317,7 +317,7 @@ def generate_voxmill_intel(name, category, city, reviews, rating, website, tech_
 
 
 def generate_agency_intel(name, category, city, reviews, rating, website, tech_stack, social_score):
-    """Generate Agency intelligence"""
+    "Generate Agency intelligence"
     red_flags = []
     if reviews < 10:
         red_flags.append('New/unproven')
@@ -343,7 +343,7 @@ def generate_agency_intel(name, category, city, reviews, rating, website, tech_s
 # WRITE TO GOOGLE SHEETS
 # ============================================
 def write_to_sheet(leads, sheet_name):
-    """Write leads to Google Sheet"""
+    "Write leads to Google Sheet"
     print(f"📊 Writing {len(leads)} leads to sheet '{sheet_name}'...")
     
     sheet = connect_to_sheet()
@@ -412,7 +412,7 @@ def write_to_sheet(leads, sheet_name):
 # MAIN EXECUTION
 # ============================================
 async def main():
-    """Main execution"""
+    "Main execution"
     print("🚀 Voxmill Lead Intelligence Miner Starting...\n")
     
     # Mine Voxmill leads (UK)
@@ -443,8 +443,4 @@ async def main():
     write_to_sheet(all_voxmill, 'VOXMILL - High Ticket')
     write_to_sheet(all_agency, 'AGENCY - Struggling SMBs')
     
-    print("\n✨ ALL DONE! Check your Google Sheet.")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    print("\n✨ ALL DONE! Check your Google Sheet."
