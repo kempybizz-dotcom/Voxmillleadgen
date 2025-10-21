@@ -1,7 +1,3 @@
-"""
-Voxmill Lead Intelligence Miner - Simple Version
-Mines leads and writes to Google Sheet
-"""
 import asyncio
 import aiohttp
 import gspread
@@ -452,14 +448,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-```
-
----
-
-## **FILE 2: requirements.txt**
-```
-aiohttp==3.9.1
-gspread==5.12.0
-oauth2client==4.1.3
-beautifulsoup4==4.12.2
-lxml==4.9.3
