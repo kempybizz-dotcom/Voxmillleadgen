@@ -38,18 +38,18 @@ warnings.filterwarnings('ignore')
 # CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# API KEYS - REPLACE WITH YOUR ACTUAL KEYS
-GOOGLE_PLACES_API_KEY = 'YOUR_GOOGLE_PLACES_API_KEY'
-HUNTER_API_KEY = 'YOUR_HUNTER_IO_API_KEY'
-OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'
-RAPIDAPI_KEY = '1440de56aamsh945d6c41f441399p1af6adjsne2d964758775'  # Your Instagram API key
-CLEARBIT_API_KEY = 'YOUR_CLEARBIT_API_KEY'
-BUILTWITH_API_KEY = 'YOUR_BUILTWITH_API_KEY'
-LINKEDIN_SCRAPER_API_KEY = 'YOUR_LINKEDIN_SCRAPER_API_KEY'
+# API KEYS - Load from environment variables (Render deployment)
+GOOGLE_PLACES_API_KEY = os.getenv('GOOGLE_PLACES_API_KEY', 'YOUR_GOOGLE_PLACES_API_KEY')
+HUNTER_API_KEY = os.getenv('HUNTER_API_KEY', 'YOUR_HUNTER_IO_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY')
+RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY', '1440de56aamsh945d6c41f441399p1af6adjsne2d964758775')
+CLEARBIT_API_KEY = os.getenv('CLEARBIT_API_KEY', '')
+BUILTWITH_API_KEY = os.getenv('BUILTWITH_API_KEY', '')
+LINKEDIN_SCRAPER_API_KEY = os.getenv('LINKEDIN_SCRAPER_API_KEY', '')
 
 # Google Sheets Setup
-GOOGLE_SHEETS_CREDS_FILE = 'credentials.json'  # Your service account JSON
-SPREADSHEET_NAME = 'Voxmill Platinum Intelligence'
+GOOGLE_SHEETS_CREDS_JSON = os.getenv('GOOGLE_SHEETS_CREDS_JSON', '')  # Base64 encoded JSON
+SPREADSHEET_NAME = os.getenv('SPREADSHEET_NAME', 'Voxmill Platinum Intelligence')
 
 # UK Cities to Target
 UK_CITIES = [
@@ -978,7 +978,19 @@ def init_google_sheets() -> gspread.Spreadsheet:
         'https://www.googleapis.com/auth/drive'
     ]
     
-    creds = ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_SHEETS_CREDS_FILE, scope)
+    # Load credentials from environment variable (for Render) or file (for local)
+    if GOOGLE_SHEETS_CREDS_JSON:
+        # Render deployment: credentials stored as base64 encoded JSON in env var
+        import base64
+        creds_json = base64.b64decode(GOOGLE_SHEETS_CREDS_JSON).decode('utf-8')
+        creds_dict = json.loads(creds_json)
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+        logger.info("Loaded Google credentials from environment variable")
+    else:
+        # Local deployment: credentials.json file
+        creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+        logger.info("Loaded Google credentials from credentials.json file")
+    
     client = gspread.authorize(creds)
     
     # Create or open spreadsheet
