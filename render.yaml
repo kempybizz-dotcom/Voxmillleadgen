@@ -5,13 +5,14 @@ services:
     region: oregon
     plan: starter
     
+    # Specify Python 3.11 for stability
+    runtime: python-3.11.0
+    
     # Run every Monday at 2 AM UTC (or trigger manually)
     schedule: "0 2 * * 1"
     
-    # CRITICAL: For cron jobs, dependencies must be installed in startCommand
+    # Install dependencies in startCommand for cron jobs
     buildCommand: echo "Build complete"
-    
-    # Install dependencies THEN run the script
     startCommand: pip install -r requirements.txt && python main.py
     
     envVars:
@@ -50,3 +51,4 @@ services:
       # Python environment
       - key: PYTHONUNBUFFERED
         value: "1"
+
