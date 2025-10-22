@@ -8,10 +8,11 @@ services:
     # Run every Monday at 2 AM UTC (or trigger manually)
     schedule: "0 2 * * 1"
     
-    buildCommand: pip install -r requirements.txt
+    # CRITICAL: For cron jobs, dependencies must be installed in startCommand
+    buildCommand: echo "Build complete"
     
-    # CORRECTED: Your file is main.py, not voxmill_platinum_engine.py
-    startCommand: python main.py
+    # Install dependencies THEN run the script
+    startCommand: pip install -r requirements.txt && python main.py
     
     envVars:
       # Google Places API
@@ -49,4 +50,3 @@ services:
       # Python environment
       - key: PYTHONUNBUFFERED
         value: "1"
-      
