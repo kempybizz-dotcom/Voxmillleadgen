@@ -1,0 +1,50 @@
+services:
+  - type: cron
+    name: voxmill-platinum-intelligence
+    env: python
+    region: oregon
+    plan: starter
+    
+    # Run every Monday at 2 AM UTC (adjust as needed)
+    schedule: "0 2 * * 1"
+    
+    buildCommand: pip install -r requirements.txt
+    
+    startCommand: python voxmill_platinum_engine.py
+    
+    envVars:
+      # Google APIs
+      - key: GOOGLE_PLACES_API_KEY
+        sync: false
+      
+      # Email Verification
+      - key: HUNTER_API_KEY
+        sync: false
+      
+      # AI
+      - key: OPENAI_API_KEY
+        sync: false
+      
+      # Social Media (Already have)
+      - key: RAPIDAPI_KEY
+        value: 1440de56aamsh945d6c41f441399p1af6adjsne2d964758775
+      
+      # Company Enrichment (Optional)
+      - key: CLEARBIT_API_KEY
+        sync: false
+      
+      # Tech Stack (Optional)
+      - key: BUILTWITH_API_KEY
+        sync: false
+      
+      # LinkedIn (Optional)
+      - key: LINKEDIN_SCRAPER_API_KEY
+        sync: false
+      
+      # Google Sheets Config
+      - key: SPREADSHEET_NAME
+        value: Voxmill Platinum Intelligence
+      
+      # Python environment
+      - key: PYTHONUNBUFFERED
+        value: 1
