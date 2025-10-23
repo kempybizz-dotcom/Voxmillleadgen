@@ -1,54 +1,20 @@
 services:
-  - type: cron
-    name: voxmill-platinum-intelligence
-    env: python
-    region: oregon
+  - type: worker
+    name: voxmill-legendary-intelligence
+    runtime: python
     plan: starter
-    
-    # Specify Python 3.11 for stability
-    runtime: python-3.11.0
-    
-    # Run every Monday at 2 AM UTC (or trigger manually)
-    schedule: "0 2 * * 1"
-    
-    # Install dependencies in startCommand for cron jobs
-    buildCommand: echo "Build complete"
-    startCommand: pip install -r requirements.txt && python main.py
-    
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
     envVars:
-      # Google Places API
       - key: GOOGLE_PLACES_API
         sync: false
-      
-      # SerpAPI (you already have this)
-      - key: SERP_API
-        value: effe5fa5c5a4a81fffe1a32ea2a257f6a2097fc38ca5ca5d5a67bd29f7e0303d
-      
-      # Yelp API (you already have this)
       - key: YELP_API
-        value: RP4QNPPXDJLioJAPyQcQ9hKnzsGZJ_PjpkYVcpokpE4nrqPElt4qhGk3GyuEcHiRPc2wE3gjtFG9rFV8WqR8fPYBcuqPJWaJdPTpjbcxmj
-      
-      # Email Verification
-      - key: HUNTER_API
         sync: false
-      
-      # OpenAI for AI-generated outreach
       - key: OPENAI_API
         sync: false
-      
-      # Company Enrichment (optional but recommended)
-      - key: CLEARBIT_API
+      - key: HUNTER_API
         sync: false
-      
-      # Tech Stack Detection (optional - free version used if not provided)
-      - key: BUILTWITH_API
-        sync: false
-      
-      # Google Sheets Credentials (REQUIRED - must be JSON string)
       - key: GOOGLE_SHEETS_CREDENTIALS
         sync: false
-      
-      # Python environment
-      - key: PYTHONUNBUFFERED
-        value: "1"
+    healthCheckPath: /
 
