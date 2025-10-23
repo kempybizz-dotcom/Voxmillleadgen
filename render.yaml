@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/render.yaml << 'ENDYAML'
 services:
   - type: worker
     name: voxmill-legendary-v2
@@ -15,7 +14,7 @@ services:
       - key: GOOGLE_SHEETS_CREDENTIALS
         sync: false
       
-      # AI MODELS (OPTIONAL - for full legendary features)
+      # AI MODELS (OPTIONAL)
       - key: OPENAI_API
         sync: false
       - key: ANTHROPIC_API
@@ -34,43 +33,3 @@ services:
         sync: false
       - key: BUILTWITH_API
         sync: false
-ENDYAML
-cat /mnt/user-data/outputs/render.yaml
-Output
-
-services:
-  - type: worker
-    name: voxmill-legendary-v2
-    runtime: python
-    plan: starter
-    buildCommand: pip install -r requirements.txt
-    startCommand: python main.py
-    envVars:
-      # REQUIRED (FREE)
-      - key: GOOGLE_PLACES_API
-        sync: false
-      - key: YELP_API
-        sync: false
-      - key: GOOGLE_SHEETS_CREDENTIALS
-        sync: false
-      
-      # AI MODELS (OPTIONAL - for full legendary features)
-      - key: OPENAI_API
-        sync: false
-      - key: ANTHROPIC_API
-        sync: false
-      - key: GEMINI_API
-        sync: false
-      - key: PERPLEXITY_API
-        sync: false
-      
-      # ENHANCED DATA (OPTIONAL)
-      - key: HUNTER_API
-        sync: false
-      - key: APOLLO_API
-        sync: false
-      - key: CLEARBIT_API
-        sync: false
-      - key: BUILTWITH_API
-        sync: false
-
